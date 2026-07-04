@@ -1,0 +1,58 @@
+.share-referral-section {
+  margin-top: 24px;
+}
+
+.share-referral-heading {
+  color: #0f172a;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 16px 0;
+}
+
+.share-referral-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.share-referral-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.share-referral-row + .share-referral-row {
+  margin-top: 18px;
+}
+
+.share-referral-text-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.share-referral-label {
+  margin: 0 0 8px 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.share-referral-value {
+  margin: 0;
+  color: #0f172a;
+  font-size: 15px;
+  word-break: break-word;
+}
+
+.copy-button {
+  min-width: 88px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
