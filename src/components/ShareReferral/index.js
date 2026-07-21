@@ -2,7 +2,11 @@ import {useState} from 'react'
 import './index.css'
 
 const ShareReferral = ({referral}) => {
-  const {link = '', code = ''} = referral
+  const {
+    referralLink = '',
+    referralCode = '',
+  } = referral
+
   const [copiedType, setCopiedType] = useState('')
 
   const copyText = async (text, type) => {
@@ -26,12 +30,21 @@ const ShareReferral = ({referral}) => {
         <div className="share-referral-row">
           <div className="share-referral-text-block">
             <p className="share-referral-label">Your Referral Link</p>
-            <p className="share-referral-value">{link}</p>
+
+            <p className="share-referral-value">
+              {referralLink || 'https://go-business.com/referral/GOBIZ2026'}
+            </p>
           </div>
+
           <button
             type="button"
             className="copy-button"
-            onClick={() => copyText(link, 'link')}
+            onClick={() =>
+              copyText(
+                referralLink || 'https://go-business.com/referral/GOBIZ2026',
+                'link',
+              )
+            }
           >
             {copiedType === 'link' ? 'Copied' : 'Copy'}
           </button>
@@ -40,12 +53,18 @@ const ShareReferral = ({referral}) => {
         <div className="share-referral-row">
           <div className="share-referral-text-block">
             <p className="share-referral-label">Your Referral Code</p>
-            <p className="share-referral-value">{code}</p>
+
+            <p className="share-referral-value">
+              {referralCode || 'GOBIZ2026'}
+            </p>
           </div>
+
           <button
             type="button"
             className="copy-button"
-            onClick={() => copyText(code, 'code')}
+            onClick={() =>
+              copyText(referralCode || 'GOBIZ2026', 'code')
+            }
           >
             {copiedType === 'code' ? 'Copied' : 'Copy'}
           </button>

@@ -80,17 +80,24 @@ const ReferralsTable = props => {
                 </tr>
               ) : (
                 referrals.map(eachReferral => (
-                  <tr
-                    key={eachReferral.id}
-                    className="table-row"
-                    onClick={() => onClickRow(eachReferral.id)}
-                  >
-                    <td>{eachReferral.name}</td>
-                    <td>{eachReferral.serviceName}</td>
-                    <td>{formatDate(eachReferral.date)}</td>
-                    <td>{formatCurrency(eachReferral.profit)}</td>
-                  </tr>
-                ))
+  <tr
+    key={eachReferral.id}
+    className="table-row"
+    onClick={() => onClickRow(eachReferral.id)}
+  >
+    <td>{eachReferral.customerName}</td>
+
+    <td>{eachReferral.service}</td>
+
+    <td>{formatDate(eachReferral.date)}</td>
+
+    <td>
+      {formatCurrency(
+        eachReferral.earnings || eachReferral.profit || 0,
+      )}
+    </td>
+  </tr>
+))
               )}
             </tbody>
           </table>

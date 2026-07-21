@@ -32,16 +32,29 @@ const Dashboard = () => {
       setErrorMsg('')
 
       const jwtToken = Cookies.get(JWT_TOKEN)
-      const response = await getReferralsData(jwtToken, searchValue, sortBy)
+
+      const response = await getReferralsData(
+        jwtToken,
+        searchValue,
+        sortBy,
+      )
 
       if (response.ok) {
         const responseData = response.data?.data || {}
 
         setMetrics(responseData.metrics || [])
         setReferral(responseData.referral || {})
-        setAllReferrals(responseData.referrals || [])
+
+        setAllReferrals(
+          responseData.referrals ||
+            responseData.allReferrals ||
+            [],
+        )
       } else {
-        setErrorMsg(response.data?.message || 'Failed to fetch dashboard data')
+        setErrorMsg(
+          response.data?.message ||
+            'Failed to fetch dashboard data',
+        )
       }
 
       setIsLoading(false)
@@ -71,7 +84,9 @@ const Dashboard = () => {
   }
 
   const onClickNextPage = () => {
-    const totalPages = Math.ceil(allReferrals.length / ITEMS_PER_PAGE)
+    const totalPages = Math.ceil(
+      allReferrals.length / ITEMS_PER_PAGE,
+    )
 
     if (currentPage < totalPages) {
       setCurrentPage(prevPage => prevPage + 1)
@@ -84,33 +99,51 @@ const Dashboard = () => {
     }
   }
 
-  // Option 2: calculate service summary from referrals
   const totalReferralsCount = allReferrals.length
-  const activeReferralsCount = allReferrals.length
+
+  const activeReferralsCount = allReferrals.filter(
+    eachReferral => eachReferral.status === 'Active',
+  ).length
+
   const totalRefEarnings = allReferrals.reduce(
-    (total, eachReferral) => total + Number(eachReferral.profit || 0),
+    (total, eachReferral) =>
+      total +
+      Number(
+        eachReferral.profit ||
+          eachReferral.earnings ||
+          0,
+      ),
     0,
   )
+    const uniqueServices = [
+    ...new Set(
+      allReferrals.map(
+        eachReferral =>
+          eachReferral.serviceName ||
+          eachReferral.service,
+      ),
+    ),
+  ]
 
-  const uniqueServices = [
-  ...new Set(allReferrals.map(eachReferral => eachReferral.serviceName)),
-]
+  const serviceName =
+    uniqueServices.length === 1
+      ? uniqueServices[0]
+      : 'Multiple Services'
 
-const serviceName =
-  uniqueServices.length === 1 ? uniqueServices[0] : 'Multiple Services'
-
-const calculatedServiceSummary = {
-  service: serviceName,
-  yourReferrals: totalReferralsCount,
-  activeReferrals: activeReferralsCount,
-  totalRefEarnings,
-}
+  const calculatedServiceSummary = {
+    service: serviceName,
+    yourReferrals: totalReferralsCount,
+    activeReferrals: activeReferralsCount,
+    totalRefEarnings,
+  }
 
   const renderContent = () => {
     if (isLoading) {
       return (
         <div className="dashboard-status-container">
-          <p className="dashboard-status-text">Loading...</p>
+          <p className="dashboard-status-text">
+            Loading...
+          </p>
         </div>
       )
     }
@@ -118,7 +151,9 @@ const calculatedServiceSummary = {
     if (errorMsg !== '') {
       return (
         <div className="dashboard-status-container">
-          <p className="dashboard-error-text">{errorMsg}</p>
+          <p className="dashboard-error-text">
+            {errorMsg}
+          </p>
         </div>
       )
     }
@@ -126,15 +161,23 @@ const calculatedServiceSummary = {
     return (
       <>
         <header className="dashboard-header">
-          <h1 className="dashboard-title">Referral Dashboard</h1>
+          <h1 className="dashboard-title">
+            Referral Dashboard
+          </h1>
           <p className="dashboard-description">
-            Track your referrals, earnings, and partner activity in one place.
+            Track your referrals, earnings, and
+            partner activity in one place.
           </p>
         </header>
 
         <OverviewSection metrics={metrics} />
-        <ServiceSummary serviceSummary={calculatedServiceSummary} />
+
+        <ServiceSummary
+          serviceSummary={calculatedServiceSummary}
+        />
+
         <ShareReferral referral={referral} />
+
         <ReferralsTable
           referrals={paginatedReferrals}
           searchInput={searchInput}
@@ -156,7 +199,9 @@ const calculatedServiceSummary = {
     <>
       <Navbar />
       <div className="dashboard-page">
-        <div className="dashboard-content">{renderContent()}</div>
+        <div className="dashboard-content">
+          {renderContent()}
+        </div>
       </div>
     </>
   )

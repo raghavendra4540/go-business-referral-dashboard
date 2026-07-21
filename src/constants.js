@@ -1,8 +1,8 @@
 export const LOGIN_API_URL =
-  'https://v9fes04dwf.execute-api.eu-north-1.amazonaws.com/api/auth/signin'
+  'https://jsonplaceholder.typicode.com/posts'
 
 export const REFERRALS_API_URL =
-  'https://v9fes04dwf.execute-api.eu-north-1.amazonaws.com/api/referrals'
+  'https://jsonplaceholder.typicode.com/posts'
 
 export const JWT_TOKEN = 'jwt_token'
 
